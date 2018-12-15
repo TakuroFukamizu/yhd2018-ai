@@ -73,7 +73,7 @@ $ ./prep.sh
 $ export PATH=/opt/darknet:$PATH
 $ darknet detector train \
     cfg/dataset.txt \
-    cfg/yolov3.train.cfg \
+    cfg/yolov3-tiny.train.cfg \
     yolov3-tiny.conv.15
 ```
 
