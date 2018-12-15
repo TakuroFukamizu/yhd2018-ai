@@ -1,0 +1,4 @@
+classes=28
+train = temp/train/index.txt 
+labels = cfg/labels.txt
+backup = backup/
