@@ -53,6 +53,9 @@ Get pre-trained weights yolov3-tiny.conv.15 using command:
 mv yolov3-tiny.conv.15 ../
 ```
 
+ref.  
+https://github.com/AlexeyAB/darknet#how-to-train-tiny-yolo-to-detect-your-custom-objects
+
 ## exec training
 
 ```sh
