@@ -11,6 +11,7 @@ tensorflow = "*"
 keras = "*"
 pillow = "*"
 jupyter = "*"
+matplotlib = "*"
 
 [dev-packages]
 

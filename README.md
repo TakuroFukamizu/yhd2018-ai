@@ -95,6 +95,29 @@ $ cd darknet
 $ ./darknet detector test cfg/kby.data ../cfg/yolov3.predict.cfg ../yolov3_50000.weights /Users/fkmy/git/yhd2018-ai/darknet/samples/theai20182nd/OR_IMG_8805.jpg
 ```
 
+## Keras yolo
+
+### conver darknet weights to keras model
+
+```sh
+# yolo3(original)
+$ cd keras-yolo3
+$ wget https://pjreddie.com/media/files/yolov3.weights
+$ pipenv run python3 convert.py yolov3.cfg yolov3.weights model_data/yolo.h5
+# tiny-yolo3
+$ wget https://pjreddie.com/media/files/yolov3-tiny.weights
+$ pipenv run python3 convert.py yolov3-tiny.cfg yolov3-tiny.weights model_data/yolo-tiny.h5
+```
+
+### run detect 
+
+```sh
+$ pipenv run python3 run_yolo3.py
+$ pipenv run python3 run_yolo3tiny.py
+```
+
+
 ## refs
 - https://wakuphas.hatenablog.com/entry/2018/09/19/025941
 - http://demura.net/misc/14458.html
+- https://qiita.com/yoyoyo_/items/10d550b03b4b9c175d9c
