@@ -8,10 +8,13 @@ numpy = "*"
 opencv-python = "*"
 cython = "*"
 tensorflow = "*"
-keras = "*"
+keras = "==2.1.6"
 pillow = "*"
 jupyter = "*"
 matplotlib = "*"
+protobuf = "*"
+scikit-learn = "*"
+coremltools = "*"
 
 [dev-packages]
 
