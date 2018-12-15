@@ -32,12 +32,12 @@ $ python /path/to/bboxtool.py ./train_data ./cfg/labels.txt
 ```sh
 $ cp cfg/yolov3-tiny.template.cfg cfg/yolov3-tiny.train.cfg; \
     sed -i.bak 's/^classes=80/classes=9/g' cfg/yolov3-tiny.train.cfg; \
-    sed -i.bak 's/^filters=255/filters=24/g' cfg/yolov3-tiny.train.cfg
+    sed -i.bak 's/^filters=255/filters=42/g' cfg/yolov3-tiny.train.cfg
 $ cp cfg/yolov3-tiny.template.cfg cfg/yolov3-tiny.predict.cfg; \
     sed -i.bak 's/^batch=64/batch=1/g' cfg/yolov3-tiny.predict.cfg; \
     sed -i.bak 's/^subdivisions=2/subdivisions=1/g' cfg/yolov3-tiny.predict.cfg; \
     sed -i.bak 's/^classes=80/classes=9/g' cfg/yolov3-tiny.predict.cfg; \
-    sed -i.bak 's/^filters=255/filters=24/g' cfg/yolov3-tiny.predict.cfg
+    sed -i.bak 's/^filters=255/filters=42/g' cfg/yolov3-tiny.predict.cfg
 ```
 
 ## prep for fine tune
