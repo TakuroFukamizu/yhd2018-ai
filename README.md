@@ -95,6 +95,8 @@ Download default weights file for yolov3-tiny:
 ```sh
 https://pjreddie.com/media/files/yolov3-tiny.weights
 ```
+
+### Get Pre-trained weights for fine tune
   
 Get pre-trained weights yolov3-tiny.conv.15 using command: 
 ```sh
@@ -105,6 +107,13 @@ mv yolov3-tiny.conv.15 ../
 ref.  
 https://github.com/AlexeyAB/darknet#how-to-train-tiny-yolo-to-detect-your-custom-objects
 
+Get pre-trained weights for yolov2-tiny
+```sh
+$ wget https://pjreddie.com/media/files/darknet19_448.conv.23
+```
+
+ref.
+https://pjreddie.com/darknet/yolov2/
 
 ## exec training
 
@@ -141,7 +150,7 @@ $ export PATH=/opt/darknet:$PATH
 $ darknet detector train \
     cfg/dataset.txt \
     cfg/yolov2-tiny.train.cfg \
-    yolov3-tiny.conv.15
+    darknet19_448.conv.23
 ```
 
 
