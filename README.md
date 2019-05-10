@@ -29,16 +29,65 @@ $ python /path/to/bboxtool.py ./train_data ./cfg/labels.txt
 - classes はクラス数。  
 - filtersの計算式は `filters=(クラス数+5)*3` で計算する。
 
+#### Yolo v3 tiny
+
 ```sh
-$ cp cfg/yolov3-tiny.template.cfg cfg/yolov3-tiny.train.cfg; \
-    sed -i.bak 's/^classes=80/classes=9/g' cfg/yolov3-tiny.train.cfg; \
-    sed -i.bak 's/^filters=255/filters=42/g' cfg/yolov3-tiny.train.cfg
-$ cp cfg/yolov3-tiny.template.cfg cfg/yolov3-tiny.predict.cfg; \
-    sed -i.bak 's/^batch=64/batch=1/g' cfg/yolov3-tiny.predict.cfg; \
-    sed -i.bak 's/^subdivisions=2/subdivisions=1/g' cfg/yolov3-tiny.predict.cfg; \
-    sed -i.bak 's/^classes=80/classes=9/g' cfg/yolov3-tiny.predict.cfg; \
-    sed -i.bak 's/^filters=255/filters=42/g' cfg/yolov3-tiny.predict.cfg
+$ set -x; \
+  export CLASS_NUM=9; \
+  export CFG_TRAIN=cfg/yolov3-tiny.train.cfg; \
+  export CFG_PREDI=cfg/yolov3-tiny.predict.cfg; \
+  export FILTERS=`expr \( $CLASS_NUM + 5 \) \* 3`; \
+  cp cfg/yolov3-tiny.template.cfg ${CFG_TRAIN}; \
+    sed -i.bak 's/^batch=64/batch=32/g' ${CFG_TRAIN}; \
+    sed -i.bak 's/^classes=80/classes='${CLASS_NUM}'/g' ${CFG_TRAIN}; \
+    sed -i.bak 's/^filters=255/filters='${FILTERS}'/g' ${CFG_TRAIN}; \
+  cp cfg/yolov3-tiny.template.cfg cfg/${CFG_PREDI}; \
+    sed -i.bak 's/^batch=64/batch=1/g' cfg/${CFG_PREDI}; \
+    sed -i.bak 's/^subdivisions=16/subdivisions=1/g' ${CFG_PREDI}; \
+    sed -i.bak 's/^classes=80/classes='${CLASS_NUM}'/g' ${CFG_PREDI}; \
+    sed -i.bak 's/^filters=255/filters='${FILTERS}'/g' ${CFG_PREDI}; \
+  rm ${CFG_TRAIN}.bak; \
+  rm ${CFG_PREDI}.bak
 ```
+
+#### Yolo v2 tiny
+
+```sh
+$ set -x; \
+  export CLASS_NUM=9; \
+  export CFG_TRAIN=cfg/yolov3-tiny.train.cfg; \
+  export CFG_PREDI=cfg/yolov3-tiny.predict.cfg; \
+  export FILTERS=`expr \( $CLASS_NUM + 5 \) \* 3`; \
+  cp cfg/yolov3-tiny.template.cfg ${CFG_TRAIN}; \
+    sed -i.bak 's/^## {BATCH_PARAM} ##/batch=32/g' ${CFG_TRAIN}; \
+    sed -i.bak 's/^## {SUBDIVISION_PARAM} ##/subdivisions=16/g' ${CFG_PREDI}; \
+    sed -i.bak 's/^## {CLASSES_PARAM} ##/classes='${CLASS_NUM}'/g' ${CFG_TRAIN}; \
+    sed -i.bak 's/^## {FILTERS_PARAM} ##/filters='${FILTERS}'/g' ${CFG_TRAIN}; \
+  cp cfg/yolov3-tiny.template.cfg cfg/${CFG_PREDI}; \
+    sed -i.bak 's/^## {BATCH_PARAM} ##/batch=1/g' cfg/${CFG_PREDI}; \
+    sed -i.bak 's/^## {SUBDIVISION_PARAM} ##/subdivisions=1/g' ${CFG_PREDI}; \
+    sed -i.bak 's/^## {CLASSES_PARAM} ##/classes='${CLASS_NUM}'/g' ${CFG_PREDI}; \
+    sed -i.bak 's/^## {FILTERS_PARAM} ##/filters='${FILTERS}'/g' ${CFG_PREDI}; \
+  rm ${CFG_TRAIN}.bak; \
+  rm ${CFG_PREDI}.bak
+```
+
+### make dataset file 
+
+```sh
+$ set -x; \
+  export CLASS_NUM=9; \
+  export FILE_DB=cfg/dataset.txt; \
+  export FILE_LBL=cfg/labels.txt; \
+cat << EOT > ${FILE_DB}
+classes=${CLASS_NUM}
+train = temp/train/index.txt 
+backup=backup/
+labels=${FILE_LBL}
+names=${FILE_LBL}
+EOT
+```
+
 
 ## prep for fine tune
 
@@ -56,6 +105,7 @@ mv yolov3-tiny.conv.15 ../
 ref.  
 https://github.com/AlexeyAB/darknet#how-to-train-tiny-yolo-to-detect-your-custom-objects
 
+
 ## exec training
 
 ```sh
@@ -66,7 +116,10 @@ docker run \
     -it fkmy/nvidia-docker-darknet:latest
 ```
 
+### yolo v3 tiny
+
 In container
+
 ```sh
 $ cd /opt/kby
 $ ./prep.sh
@@ -76,6 +129,21 @@ $ darknet detector train \
     cfg/yolov3-tiny.train.cfg \
     yolov3-tiny.conv.15
 ```
+
+### yolo v2 tiny
+
+In container
+
+```sh
+$ cd /opt/kby
+$ ./prep.sh
+$ export PATH=/opt/darknet:$PATH
+$ darknet detector train \
+    cfg/dataset.txt \
+    cfg/yolov2-tiny.train.cfg \
+    yolov3-tiny.conv.15
+```
+
 
 ## prediction
 
