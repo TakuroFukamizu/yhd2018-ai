@@ -55,16 +55,16 @@ $ set -x; \
 ```sh
 $ set -x; \
   export CLASS_NUM=9; \
-  export CFG_TRAIN=cfg/yolov3-tiny.train.cfg; \
-  export CFG_PREDI=cfg/yolov3-tiny.predict.cfg; \
+  export CFG_TRAIN=cfg/yolov2-tiny.train.cfg; \
+  export CFG_PREDI=cfg/yolov2-tiny.predict.cfg; \
   export FILTERS=`expr \( $CLASS_NUM + 5 \) \* 3`; \
   cp cfg/yolov3-tiny.template.cfg ${CFG_TRAIN}; \
     sed -i.bak 's/^## {BATCH_PARAM} ##/batch=32/g' ${CFG_TRAIN}; \
     sed -i.bak 's/^## {SUBDIVISION_PARAM} ##/subdivisions=16/g' ${CFG_PREDI}; \
     sed -i.bak 's/^## {CLASSES_PARAM} ##/classes='${CLASS_NUM}'/g' ${CFG_TRAIN}; \
     sed -i.bak 's/^## {FILTERS_PARAM} ##/filters='${FILTERS}'/g' ${CFG_TRAIN}; \
-  cp cfg/yolov3-tiny.template.cfg cfg/${CFG_PREDI}; \
-    sed -i.bak 's/^## {BATCH_PARAM} ##/batch=1/g' cfg/${CFG_PREDI}; \
+  cp cfg/yolov3-tiny.template.cfg  ${CFG_PREDI}; \
+    sed -i.bak 's/^## {BATCH_PARAM} ##/batch=1/g' ${CFG_PREDI}; \
     sed -i.bak 's/^## {SUBDIVISION_PARAM} ##/subdivisions=1/g' ${CFG_PREDI}; \
     sed -i.bak 's/^## {CLASSES_PARAM} ##/classes='${CLASS_NUM}'/g' ${CFG_PREDI}; \
     sed -i.bak 's/^## {FILTERS_PARAM} ##/filters='${FILTERS}'/g' ${CFG_PREDI}; \
